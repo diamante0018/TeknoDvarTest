@@ -4,8 +4,19 @@
 
 DWORD WINAPI EntryPoint(LPVOID _arguments)
 {
-    dvar_t* dvar = Dvar_FindDvar("cg_drawGun", true);
-    dvar->current = 0;
+    Dvar_LockDvar("cg_crosshairEnemyColor", 1);
+    Dvar_LockDvar("cg_drawcrosshairnames", 1);
+    Dvar_LockDvar("cg_brass", 1);
+    Dvar_LockDvar("r_fog", 1);
+    Dvar_LockDvar("r_fastskin", 1);
+    Dvar_LockDvar("clientsideeffects", 1);
+    Dvar_LockDvar("ragdoll_enable", 1);
+
+    //Dvar_LockDvar("compassPortableRadarRadius", ???.0f); //TODO Find default value in case it gets modified by Server Script
+
+    dvar_t* dvar_4 = Dvar_FindDvar("cg_fov", true);
+    Dvar_LockDvar(dvar_4, 100.0f);
+
     return 0x1337;
 }
 
