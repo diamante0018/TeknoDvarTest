@@ -11,11 +11,19 @@ DWORD WINAPI EntryPoint(LPVOID _arguments)
     Dvar_LockDvar("r_fastskin", 1);
     Dvar_LockDvar("clientsideeffects", 1);
     Dvar_LockDvar("ragdoll_enable", 1);
+    Dvar_LockDvar("cg_blood", 1);
+    Dvar_LockDvar("cg_crosshairDynamic", 0);
+    Dvar_LockDvar("cg_drawCrosshair", 1);
+    Dvar_LockDvar("ui_drawCrosshair", 1);
 
-    //Dvar_LockDvar("compassPortableRadarRadius", ???.0f); //TODO Find default value in case it gets modified by Server Script
+    Dvar_LockDvar("g_hardcore", false);
+    Dvar_LockDvar("ui_hud_hardcore", false);
+    Dvar_LockDvar("compassPortableRadarRadius", 850.0f);
+    Dvar_LockDvar("compassPortableRadarSweepTime", 2000);
+    Dvar_LockDvar("compassPortableRadarMinVelocity", 500.0f);
 
-    dvar_t* dvar_4 = Dvar_FindDvar("cg_fov", true);
-    Dvar_LockDvar(dvar_4, 100.0f);
+    dvar_t* dvar_1 = Dvar_FindDvar("cg_fov", true);
+    Dvar_LockDvar(dvar_1, 100.0f);
 
     return 0x1337;
 }
