@@ -24,6 +24,14 @@ DWORD WINAPI EntryPoint(LPVOID _arguments)
 
     dvar_t* dvar_1 = Dvar_FindDvar("cg_fov", true);
     Dvar_LockDvar(dvar_1, 100.0f);
+    dvar_t* dvar_2 = Dvar_FindDvar("ui_debugMode", true);
+    dvar_2->current = true;
+    dvar_t * dvar_3 = Dvar_FindDvar("ragdoll_debug", true);
+    dvar_3->current = true;
+    dvar_t* dvar_4 = Dvar_FindDvar("radius_damage_debug", true);
+    dvar_4->current = true;
+    dvar_t* dvar_5 = Dvar_FindDvar("com_maxfps", true);
+    dvar_5->current = 125;
 
     return 0x1337;
 }
