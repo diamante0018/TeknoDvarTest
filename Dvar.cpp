@@ -11,9 +11,7 @@ Dvar_RegisterBool_t CL_Dvar_RegisterBool_Internal = (Dvar_RegisterBool_t)CL_DVAR
 Dvar_RegisterString_t CL_Dvar_RegisterString_Internal = (Dvar_RegisterString_t)CL_DVAR_REGISTERSTRING_ADDR;
 Dvar_RegisterVec3_t CL_Dvar_RegisterVec3_Internal = (Dvar_RegisterVec3_t)CL_DVAR_REGISTERVEC3_ADDR;
 Dvar_RegisterVec4_t CL_Dvar_RegisterVec4_Internal = (Dvar_RegisterVec4_t)CL_DVAR_REGISTERVEC4_ADDR;
-Dvar_RegisterColor_t CL_Dvar_RegisterColor_Internal = (Dvar_RegisterColor_t)CL_DVAR_REGISTERCOLOR_ADDR;
-
-#define FLT_MAX 3.402823466e+38F 
+Dvar_RegisterColor_t CL_Dvar_RegisterColor_Internal = (Dvar_RegisterColor_t)CL_DVAR_REGISTERCOLOR_ADDR; 
 
 dvar_t* Dvar_FindDvar(const char* name, bool giveDefault)
 {
@@ -67,30 +65,25 @@ dvar_t* __cdecl Dvar_RegisterColor(const char* dvarName, float r, float g, float
 	return NULL;
 }
 
-dvar_value_t::dvar_value_t(int value)
+DvarValue::DvarValue(int value)
 {
 	this->integer = value;
 }
 
-dvar_value_t::dvar_value_t(bool value)
+DvarValue::DvarValue(bool value)
 {
-	this->boolean = value;
+	this->enabled = value;
 }
 
-dvar_value_t::dvar_value_t(float x, float y)
+DvarValue::DvarValue(float x, float y, float z, float w)
 {
-	this->vec2[0] = x;
-	this->vec2[1] = y;
+	this->vector[0] = x;
+	this->vector[1] = y;
+	this->vector[2] = z;
+	this->vector[3] = w;
 }
 
-dvar_value_t::dvar_value_t(float x, float y, float z)
-{
-	this->vec3[0] = x;
-	this->vec3[1] = y;
-	this->vec3[2] = z;
-}
-
-dvar_value_t::dvar_value_t(BYTE r, BYTE g, BYTE b, BYTE a)
+DvarValue::DvarValue(BYTE r, BYTE g, BYTE b, BYTE a)
 {
 	this->color[0] = r;
 	this->color[1] = g;
@@ -98,35 +91,17 @@ dvar_value_t::dvar_value_t(BYTE r, BYTE g, BYTE b, BYTE a)
 	this->color[3] = a;
 }
 
-dvar_value_t::dvar_value_t(float x, float y, float z, float w)
-{
-	this->vec4[0] = x;
-	this->vec4[1] = y;
-	this->vec4[2] = z;
-	this->vec4[3] = w;
-}
-
-dvar_value_t::dvar_value_t(float value)
+DvarValue::DvarValue(float value)
 {
 	this->value = value;
 }
 
-dvar_value_t::dvar_value_t(char* string)
+DvarValue::DvarValue(char* string)
 {
 	this->string = string;
 }
 
-dvar_maxmin_t::dvar_maxmin_t(int i)
-{
-	this->i = i;
-}
-
-dvar_maxmin_t::dvar_maxmin_t(float f)
-{
-	this->f = f;
-}
-
-void Dvar_LockDvar(const char* name, dvar_value_t newVal)
+void Dvar_LockDvar(const char* name, DvarValue newVal)
 {
 	dvar_t* dvar = Dvar_FindDvar(name, false);
 
@@ -136,29 +111,10 @@ void Dvar_LockDvar(const char* name, dvar_value_t newVal)
 		return;
 	}
 
-	if (dvar->type | DVAR_TYPE_FLOAT)
-	{
-		dvar->max = dvar_maxmin_t((float)newVal.value);
-		dvar->min = dvar_maxmin_t((float)newVal.value);
-	}
-
-	else if (dvar->type | DVAR_TYPE_INT)
-	{
-		dvar->max = dvar_maxmin_t((int)newVal.integer);
-		dvar->min = dvar_maxmin_t((int)newVal.integer);
-	}
-
-	else if (dvar->type | DVAR_TYPE_BOOL)
-	{
-		dvar->max = dvar_maxmin_t((int)newVal.boolean);
-		dvar->min = dvar_maxmin_t((int)newVal.boolean);
-	}
-
-	dvar->default_value = newVal;
 	dvar->current = newVal;
 }
 
-void Dvar_LockDvar(dvar_t* dvar, dvar_value_t newVal)
+void Dvar_LockDvar(dvar_t* dvar, DvarValue newVal)
 {
 	if (dvar == NULL)
 	{
@@ -166,24 +122,5 @@ void Dvar_LockDvar(dvar_t* dvar, dvar_value_t newVal)
 		return;
 	}
 
-	if (dvar->type | DVAR_TYPE_FLOAT)
-	{
-		dvar->max = dvar_maxmin_t((float)newVal.value);
-		dvar->min = dvar_maxmin_t((float)newVal.value);
-	}
-
-	else if (dvar->type | DVAR_TYPE_INT)
-	{
-		dvar->max = dvar_maxmin_t((int)newVal.integer);
-		dvar->min = dvar_maxmin_t((int)newVal.integer);
-	}
-
-	else if (dvar->type | DVAR_TYPE_BOOL)
-	{
-		dvar->max = dvar_maxmin_t((int)newVal.boolean);
-		dvar->min = dvar_maxmin_t((int)newVal.boolean);
-	}
-
-	dvar->default_value = newVal;
 	dvar->current = newVal;
 }

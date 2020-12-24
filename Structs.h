@@ -33,52 +33,62 @@ typedef enum
 	DVF_PRINTABLE = 0x10000
 } dvarFlags_e;
 
-union dvar_value_t
+union DvarValue
 {
-	char* string;
-	int		integer;
-	float	value;
-	bool	boolean;
-	float	vec2[2];
-	float	vec3[3];
-	float	vec4[4];
-	BYTE	color[4];
+	bool enabled;
+	int integer;
+	unsigned int unsignedInt;
+	float value;
+	float vector[4];
+	const char* string;
+	char color[4];
 
-	dvar_value_t();
-
-	dvar_value_t(int value);
-	dvar_value_t(bool value);
-	dvar_value_t(float x, float y);
-	dvar_value_t(float x, float y, float z);
-	dvar_value_t(float x, float y, float z, float w);
-	dvar_value_t(BYTE r, BYTE g, BYTE b, BYTE a);
-	dvar_value_t(float value);
-	dvar_value_t(char* string);
+	DvarValue(int value);
+	DvarValue(bool value);
+	DvarValue(float x, float y, float z, float w);
+	DvarValue(BYTE r, BYTE g, BYTE b, BYTE a);
+	DvarValue(float value);
+	DvarValue(char* string);
 };
 
-union dvar_maxmin_t
+struct enum_limit
 {
-	int i;
-	float f;
-
-	dvar_maxmin_t(int i);
-	dvar_maxmin_t(float f);
+	int stringCount;
+	const char** strings;
 };
 
-typedef struct dvar_t
+struct int_limit
+{
+	int min;
+	int max;
+};
+
+struct float_limit
+{
+	float min;
+	float max;
+};
+
+union DvarLimits
+{
+	enum_limit enumeration;
+	int_limit integer;
+	float_limit value;
+	float_limit vector;
+};
+
+struct dvar_t
 {
 	const char* name;
-	short			flags;
-	char			pad1[2];
-	char			type;
-	char			pad2[3];
-	dvar_value_t	current;
-	dvar_value_t	latched;
-	dvar_value_t	default_value;
-	dvar_maxmin_t	min;
-	dvar_maxmin_t	max;
-	dvar_t* next;
+	unsigned int flags;
+	char type;
+	bool modified;
+	DvarValue current;
+	DvarValue latched;
+	DvarValue reset;
+	DvarLimits domain;
+	bool(__cdecl* domainFunc)(dvar_t*, DvarValue);
 	dvar_t* hashNext;
-} dvar_t;		
+};
 
 #pragma pack()
