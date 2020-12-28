@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <cstdint>
 
 typedef enum errorParam_t
 {
@@ -84,11 +85,59 @@ struct dvar_t
 	char type;
 	bool modified;
 	DvarValue current;
-	DvarValue latched;
+	DvarValue latched; //YYY
 	DvarValue reset;
 	DvarLimits domain;
 	bool(__cdecl* domainFunc)(dvar_t*, DvarValue);
 	dvar_t* hashNext;
+};
+
+//Rijix Structs
+struct dvar_argPack
+{
+	uint32_t dynVar;
+	float arg1;
+	float arg2;
+	float arg3;
+};
+
+struct dynVar
+{
+	union
+	{
+		const char* strPtr;
+		float floatVar;
+		int integerVar;
+	};
+};
+
+struct dynPack
+{
+	union {
+		uint32_t arg0;
+		uint32_t arg1;
+		struct stringsArr
+		{
+			uint32_t size;
+			const char** strings;
+		};
+		stringsArr strarr;
+	};
+};
+
+struct dvar_r
+{
+	const char* name;
+	uint32_t bitMask;
+	uint8_t type;
+	uint8_t boolA;
+	uint16_t padding;
+	dvar_argPack XXX;
+	dvar_argPack YYY;
+	dvar_argPack ZZZ;
+	dynPack dynPack;
+	uint32_t unknownFunction;
+	dvar_r* hashIndexedDvar;
 };
 
 #pragma pack()

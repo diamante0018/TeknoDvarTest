@@ -1,5 +1,7 @@
 #pragma once
 #include "Structs.h"
+#include "Detours.h"
+#include "Address.h"
 
 typedef dvar_t* (*Dvar_FindVar_t)(const char* name);
 typedef dvar_t* (*Dvar_RegisterVec3_t)(const char* dvarName, float x, float y, float z, float min, float max, unsigned __int16 flags, const char* description);
