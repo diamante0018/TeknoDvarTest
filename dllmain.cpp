@@ -40,6 +40,7 @@ DWORD WINAPI EntryPoint(LPVOID _arguments)
 {
     Dvar_LockDvar("cg_crosshairEnemyColor", 1);
     Dvar_LockDvar("cg_drawcrosshairnames", 1);
+    Dvar_LockDvar("cg_drawCrosshair", 1);
     Dvar_LockDvar("cg_brass", 1);
     Dvar_LockDvar("r_fog", 0);
     Dvar_LockDvar("r_fastskin", 1);
@@ -58,6 +59,12 @@ DWORD WINAPI EntryPoint(LPVOID _arguments)
     Dvar_LockDvar("perk_footstepVolumeAlly", 0.0f);
     Dvar_LockDvar("perk_footstepVolumePlayer", 0.0f);
     Dvar_LockDvar("perk_parabolicAngle", 180.0f);
+    Dvar_LockDvar("cg_drawFriendlyNames", 1);
+    Dvar_LockDvar("cg_drawMaterial", 0);
+    Dvar_LockDvar("cg_drawShellshock", 0);
+    Dvar_LockDvar("cg_drawpaused", 0);
+    Dvar_LockDvar("cl_enableRCon", 1);
+    Dvar_LockDvar("cg_weaponCycleDelay", 0);
 
     Dvar_LockDvar("g_hardcore", false);
     Dvar_LockDvar("ui_hud_hardcore", false);
@@ -81,7 +88,7 @@ DWORD WINAPI EntryPoint(LPVOID _arguments)
     dvar_t* dvar_2 = Dvar_FindDvar("perk_parabolicRadius", true);
     Dvar_LockDvar(dvar_2, 2400.0f);
 
-    Dvar_RegisterBool("Cum", true, 0, "You cum");
+    //Dvar_RegisterBool("Cum", true, 0, "You cum");
 
     //out = fopen("OUTPUT.txt", "ab");
     //DetourTransactionBegin();

@@ -107,7 +107,7 @@ void Dvar_LockDvar(const char* name, DvarValue newVal)
 
 	if (dvar == NULL)
 	{
-		CL_Error_Internal(ERR_DROP, "Tried to lock a NULL dvar");
+		//CL_Error_Internal(ERR_DROP, "Tried to lock a NULL dvar");
 		return;
 	}
 
@@ -118,7 +118,7 @@ void Dvar_LockDvar(dvar_t* dvar, DvarValue newVal)
 {
 	if (dvar == NULL)
 	{
-		CL_Error_Internal(ERR_DROP, "Tried to lock a NULL given dvar");
+		//CL_Error_Internal(ERR_DROP, "Tried to lock a NULL given dvar");
 		return;
 	}
 
