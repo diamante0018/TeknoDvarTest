@@ -16,53 +16,51 @@ Dvar_RegisterColor_t CL_Dvar_RegisterColor_Internal = (Dvar_RegisterColor_t)CL_D
 dvar_t* Dvar_FindDvar(const char* name, bool giveDefault)
 {
 		dvar_t* res = CL_Dvar_FindDvar_Internal(name);
+		printf("Finding Dvar %s...\n", name);
+
 		if (res)
 			return res;
+
 		if (giveDefault)
 			return CL_Dvar_RegisterString_Internal("sv_undefined", "<undefined>", 0, "default dvar returned for undefined dvars");
+
+	printf("Dvar_FindDvar returning NULL Dvar\n");
 	return NULL;
 }
 
 dvar_t* __cdecl Dvar_RegisterVec3(const char* dvarName, float x, float y, float z, float min, float max, unsigned __int16 flags, const char* description)
 {
 	return CL_Dvar_RegisterVec3_Internal(dvarName, x, y, z, min, max, flags, description);
-	return NULL;
 }
 
 dvar_t* __cdecl Dvar_RegisterVec4(const char* dvarName, float x, float y, float z, float w, float min, float max, unsigned __int16 flags, const char* description)
 {	
     return CL_Dvar_RegisterVec4_Internal(dvarName, x, y, z, w, min, max, flags, description);
-	return NULL;
 }
 
 dvar_t* __cdecl Dvar_RegisterBool(const char* dvarName, bool value, unsigned __int16 flags, const char* description)
 {
 	return CL_Dvar_RegisterBool_Internal(dvarName, value, flags, description);
-	return NULL;
 }
 
 dvar_t* __cdecl Dvar_RegisterInt(const char* dvarName, int value, int min, int max, unsigned __int16 flags, const char* description)
 {	
 	return CL_Dvar_RegisterInt_Internal(dvarName, value, min, max, flags, description);
-    return NULL;
 }
 
 dvar_t* __cdecl Dvar_RegisterFloat(const char* dvarName, float value, float min, float max, unsigned __int16 flags, const char* description)
 {
 	return CL_Dvar_RegisterFloat_Internal(dvarName, value, min, max, flags, description);
-	return NULL;
 }
 
 dvar_t* __cdecl Dvar_RegisterString(const char* dvarName, const char* value, unsigned __int16 flags, const char* description)
 {
     return CL_Dvar_RegisterString_Internal(dvarName, value, flags, description);
-	return NULL;
 }
 
 dvar_t* __cdecl Dvar_RegisterColor(const char* dvarName, float r, float g, float b, float a, unsigned __int16 flags, const char* description)
 {
 	return CL_Dvar_RegisterColor_Internal(dvarName, r, g, b, a, flags, description);
-	return NULL;
 }
 
 DvarValue::DvarValue(int value)
@@ -107,10 +105,11 @@ void Dvar_LockDvar(const char* name, DvarValue newVal)
 
 	if (dvar == NULL)
 	{
-		//CL_Error_Internal(ERR_DROP, "Tried to lock a NULL dvar");
+		printf("Tried to lock a NULL given dvar\n");
 		return;
 	}
 
+	printf("Setting current value of %s\n", name);
 	dvar->current = newVal;
 }
 
@@ -118,9 +117,10 @@ void Dvar_LockDvar(dvar_t* dvar, DvarValue newVal)
 {
 	if (dvar == NULL)
 	{
-		//CL_Error_Internal(ERR_DROP, "Tried to lock a NULL given dvar");
+		printf("Tried to lock a NULL given dvar\n");
 		return;
 	}
 
+	printf("Setting current value of %s\n", dvar->name);
 	dvar->current = newVal;
 }
