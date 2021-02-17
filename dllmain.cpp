@@ -79,12 +79,14 @@ DWORD WINAPI EntryPoint(LPVOID _arguments)
     Dvar_LockDvar(dvar_2, 2400.0f);
 
     printf("Dvar type guide\n");
-    printf("0 = int, 1 = float\n");
+    printf("0 = int, 1 = float and 2 = string\n");
 
     std::string dvarName;
+    std::string dvarValueString;
     int value = 0;
     float fvalue = 0.0f;
     int type = 0;
+    dvar_t* p;
 
     while (true) 
     {
@@ -95,7 +97,7 @@ DWORD WINAPI EntryPoint(LPVOID _arguments)
         std::cout << "Enter Dvar Type: ";
         std::cin >> type;
 
-        std::cout << "Enter Value: ";
+        std::cout << "Enter Value:\n";
 
         switch (type) 
         {
@@ -106,6 +108,16 @@ DWORD WINAPI EntryPoint(LPVOID _arguments)
             case 1:
                 std::cin >> fvalue;
                 Dvar_LockDvar(dvarName.c_str(), fvalue);
+                break;
+            case 2:
+                std::cin >> dvarValueString;
+                printf("String Dvar Debug: %s\n", dvarValueString.c_str());
+                p = Dvar_FindDvar(dvarName.c_str(), false);
+                p->current.string = dvarValueString.c_str();
+                break;
+            case 3:
+                p = Dvar_FindDvar(dvarName.c_str(), true);
+                printf("Dvar %s Value: %s\n", dvarName.c_str(), p->current.string);
                 break;
             default:
                 printf("Unknown type: %d\n", type);
